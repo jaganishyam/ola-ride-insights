@@ -109,8 +109,10 @@ Driver Not Found =
 CALCULATE ( [Total Bookings], Rides[Booking_Status] = "Driver Not Found" )      -- 10,124
 ```
 ```DAX
-Lost Bookings = [Total Bookings] - [Successful Rides]                            -- 39,057
+Lost Bookings =
+CALCULATE ( [Total Bookings], Rides[Booking_Status] <> "Success" )              -- 39,057
 ```
+Written as its own filter rather than `[Total Bookings] - [Successful Rides]`: `Successful Rides` forces the status to "Success", so a subtraction goes wrong (e.g. −24,910) when a visual already filters out Success.
 ```DAX
 Incomplete Rides =
 CALCULATE ( [Total Bookings], Rides[Incomplete_Rides] = "Yes" )                 -- 3,926
